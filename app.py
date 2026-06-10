@@ -248,8 +248,13 @@ fig4 = px.bar(
         "successful_detox": "Resultado"
     }
 )
-
 st.plotly_chart(fig4, use_container_width=True)
+sucesso_por_idade = age_success[
+    age_success["successful_detox"] == "Sucesso"]
+melhor_faixa = sucesso_por_idade.loc[
+    sucesso_por_idade["count"].idxmax(),
+    "age_group"]
+st.info(f"💡 Insight: A faixa etária {melhor_faixa} apresentou a maior quantidade de casos de sucesso no detox digital.")
 st.divider()
 
 #sétimo gráfico
@@ -266,8 +271,8 @@ fig5 = px.bar(
     }
 )
 st.plotly_chart(fig5, use_container_width=True)
-
 media = relapse_platform["relapse_probability"].mean()
+st.info(f"💡 Insight: {plataforma_critica} apresentou a maior probabilidade média de recaída, reforçando a importância de mecanismos de acompanhamento contínuo para usuários dessa plataforma.")
 st.divider()
 st.subheader("🧠 Insight")
 st.write(f"Média global de recaída: {media:.2f}")

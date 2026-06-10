@@ -20,6 +20,27 @@ e auxiliar no desenvolvimento do MindQuest.
 mental = pd.read_csv("https://drive.google.com/uc?id=1azYVj-tUuEwJZAATnEx6RVUbsUQvqRcc")
 detox = pd.read_csv("https://drive.google.com/uc?id=1vqszv2OhjPwtDc62sod9FtIaA-MfA6YF")
 prod = pd.read_csv("https://drive.google.com/uc?id=1Pq6y0KCli6u-YWIKskCgkBnOqvSCrNol")
+#testando colocar novo gráfico
+produtividade = pd.read_csv("https://drive.google.com/uc?id=1EapdIQkSn62CuTEfAd1F_tvmtxzkOU7f")
+for col in [
+    "daily_screen_time",
+    "study_hours",
+    "sleep_hours"
+]:
+    produtividade[col] = pd.to_numeric(
+        produtividade[col],
+        errors="coerce")
+produtividade["Faixa Etária"] = pd.cut(
+    produtividade["age"],
+    bins=[0, 19, 35, 59, 120],
+    labels=[
+        "Adolescente",
+        "Jovem Adulto",
+        "Adulto",
+        "Idoso"]
+)
+#aqui já coloquei o link
+
 idade_pt = {
     "Teen": "Adolescente",
     "Young Adult": "Jovem Adulto",
@@ -28,6 +49,25 @@ idade_pt = {
 detox["age_group"] = detox["age_group"].replace(idade_pt)
 detox["successful_detox"] = detox["successful_detox"].map(
     lambda x: "Sucesso" if str(x).lower() in ["true", "1", "sim"] else "Falha")
+
+#Mais uma nova alteração
+produtividade_group = (
+    produtividade.groupby("Faixa Etária")
+    [
+        [
+            "daily_screen_time",
+            "study_hours",
+            "sleep_hours"]
+    ]
+    .mean()
+    .reset_index()
+)
+produtividade_group = produtividade_group.rename(columns={
+    "daily_screen_time": "Tempo de Tela Diário",
+    "study_hours": "Horas de Estudo",
+    "sleep_hours": "Horas de Sono"}
+)
+#acabei aqui
 
 relapse_age = detox.groupby("age_group")["relapse_probability"].mean().reset_index()
 relapse_platform = detox.groupby("platform")["relapse_probability"].mean().reset_index()
@@ -63,6 +103,28 @@ with col4:
         """,
         unsafe_allow_html=True)
 
+#Inserindo o novo gráfico logo no início
+st.divider()
+st.header("⏳ Produtividade e Hábitos por Faixa Etária")
+fig0 = px.bar(
+    produtividade_group,
+    x="Faixa Etária",
+    y=[
+        "Tempo de Tela Diário",
+        "Horas de Estudo",
+        "Horas de Sono"
+    ],
+    barmode="group",
+    title="Tempo de Tela, Estudo e Sono por Faixa Etária",
+    labels={
+        "value": "Quantidade de Horas",
+        "variable": "Indicador"}
+)
+st.plotly_chart(fig0, use_container_width=True)
+st.info(
+    "💡 Insight: A comparação entre tempo de tela, estudo e sono permite identificar padrões de equilíbrio digital entre as diferentes faixas etárias.")
+#finalizei
+
 st.divider()
 st.header("📱 Saúde mental por plataforma")
 platform_group = mental.groupby("platform")[["stress_level", "loneliness_index", "depression_score"]].mean().reset_index()
@@ -96,9 +158,7 @@ maior_stress = platform_group.loc[
 ]
 
 st.info(
-    f"💡 Insight: {maior_stress} apresentou o maior nível médio de estresse entre as plataformas analisadas."
-)
-
+    f"💡 Insight: {maior_stress} apresentou o maior nível médio de estresse entre as plataformas analisadas.")
 #Acaba aqui
 st.divider()
 st.header("📊 Distribuição de uso por plataforma")

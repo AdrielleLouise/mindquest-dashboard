@@ -108,7 +108,7 @@ st.divider()
 
 #primeiro gráfico
 st.header("⏳ Produtividade e Hábitos por Faixa Etária")
-st.write(produtividade_group)
+#st.write(produtividade_group)
 fig0 = px.bar(
     produtividade_group,
     x="Faixa Etária",

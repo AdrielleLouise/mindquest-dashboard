@@ -283,8 +283,6 @@ if 0.45 < media < 0.55:
     st.warning("A recaída é aproximadamente 50% → comportamento sistêmico.")
 st.divider()
 st.success("""
-Conclusão
-
 Os dados indicam que padrões de uso excessivo das redes sociais estão associados
 a maiores índices de estresse, depressão e recaída em processos de detox digital.
 

@@ -146,8 +146,9 @@ st.divider()
 
 #terceiro gráfico
 st.header("📱 Saúde mental por plataforma")
-platform_group = mental.groupby("platform")[["stress_level", "loneliness_index", "depression_score"]].mean().reset_index()
+platform_group = mental.groupby("platform")[["anxiety_score", "stress_level", "loneliness_index", "depression_score"]].mean().reset_index()
 platform_group = platform_group.rename(columns={
+    "anxiety_score": "Pontuação de Ansiedade",
     "stress_level": "Nível de Estresse",
     "loneliness_index": "Índice de Solidão",
     "depression_score": "Pontuação de Depressão"})
@@ -155,12 +156,13 @@ fig1 = px.bar(
     platform_group,
     y="platform",
     x=[
+        "Pontuação de Ansiedade",
         "Nível de Estresse",
         "Índice de Solidão",
         "Pontuação de Depressão"
     ],
     orientation="h",
-    title="Estresse, Solidão e Depressão por Plataforma",
+    title="Indicadores de Saúde Mental por Plataforma",
     barmode="group",
     labels={
         "platform": "Plataforma",
@@ -171,14 +173,14 @@ fig1 = px.bar(
 st.plotly_chart(fig1, use_container_width=True)
 
 #Estou colocando mais Insights, para mostrar conhecimento além dos gráficos
-maior_stress = platform_group.loc[
-    platform_group["Nível de Estresse"].idxmax(),
+maior_ansiedade = platform_group.loc[
+    platform_group["Pontuação de Ansiedade"].idxmax(),
     "platform"
 ]
+st.info(f"💡 Insight: {maior_ansiedade} apresentou os maiores indicadores de impacto emocional, destacando-se principalmente na média de ansiedade.")
 
-st.info(
-    f"💡 Insight: {maior_stress} apresentou o maior nível médio de estresse entre as plataformas analisadas.")
 #Acaba aqui
+
 st.divider()
 
 #quarto gráfico

@@ -81,15 +81,11 @@ col1, col2, col3, col4 = st.columns([4])
 col1.metric(
     "📉 Recaída Média",
     f"{media_relapse:.0%}")
-with col2:
-    st.markdown("""
-    <div style="text-align:center;">
-        <p><b>📱 Plataforma com Maior Recaída</b></p>
-        <h4>TikTok</h4>
-    </div>
-    """, unsafe_allow_html=True)
+col2.metric( 
+    "📱 Maior Recaída",
+    plataforma_critica)
 col3.metric(
-    "📊 Plataforma Mais Usada",
+    "📊 Mais Utilizada",
     plataforma_mais_usada)
 with col4:
     st.markdown("""

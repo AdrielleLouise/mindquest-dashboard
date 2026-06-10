@@ -110,7 +110,7 @@ st.divider()
 st.header("⏳ Produtividade e Hábitos por Faixa Etária")
 fig0 = px.bar(
     produtividade_group,
-    st.write(produtividade_group)
+    st.write(produtividade_group),
     x="Faixa Etária",
     y=[
         "Tempo de Tela Diário",

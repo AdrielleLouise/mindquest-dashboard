@@ -105,6 +105,8 @@ with col4:
 
 #Inserindo o novo gráfico logo no início
 st.divider()
+
+#primeiro gráfico
 st.header("⏳ Produtividade e Hábitos por Faixa Etária")
 fig0 = px.bar(
     produtividade_group,
@@ -126,6 +128,23 @@ st.info(
 #finalizei
 
 st.divider()
+
+#segundo gráfico
+st.header("📊 Distribuição de uso por plataforma")
+uso_plataforma = detox["platform"].value_counts().reset_index()
+uso_plataforma.columns = ["platform", "usuarios"]
+fig_pizza = px.pie(
+    uso_plataforma,
+    names="platform",
+    values="usuarios",
+    title="Plataformas mais utilizadas")
+st.plotly_chart(fig_pizza, use_container_width=True)
+st.info(
+    f"💡 Insight: {plataforma_mais_usada} foi a plataforma mais utilizada entre os usuários analisados.")
+
+st.divider()
+
+#terceiro gráfico
 st.header("📱 Saúde mental por plataforma")
 platform_group = mental.groupby("platform")[["stress_level", "loneliness_index", "depression_score"]].mean().reset_index()
 platform_group = platform_group.rename(columns={
@@ -161,40 +180,8 @@ st.info(
     f"💡 Insight: {maior_stress} apresentou o maior nível médio de estresse entre as plataformas analisadas.")
 #Acaba aqui
 st.divider()
-st.header("📊 Distribuição de uso por plataforma")
-uso_plataforma = detox["platform"].value_counts().reset_index()
-uso_plataforma.columns = ["platform", "usuarios"]
-fig_pizza = px.pie(
-    uso_plataforma,
-    names="platform",
-    values="usuarios",
-    title="Plataformas mais utilizadas")
-st.plotly_chart(fig_pizza, use_container_width=True)
-st.info(
-    f"💡 Insight: {plataforma_mais_usada} foi a plataforma mais utilizada entre os usuários analisados.")
-st.divider()
-st.header("🔁 Probabilidade de recaída por idade")
 
-fig2 = px.bar(
-    relapse_age.sort_values("relapse_probability"),
-    y="age_group",
-    x="relapse_probability",
-    orientation="h",
-    title="Probabilidade de Recaída por Faixa Etária",
-    labels={
-        "age_group": "Faixa Etária",
-        "relapse_probability": "Probabilidade de Recaída"
-    }
-)
-
-st.plotly_chart(fig2, use_container_width=True)
-maior_relapse = relapse_age.loc[
-    relapse_age["relapse_probability"].idxmax(),
-    "age_group"
-]
-st.info(
-    f"💡 Insight: A faixa etária {maior_relapse} apresentou a maior probabilidade média de recaída.")
-st.divider()
+#quarto gráfico
 st.header("🧪 Sucesso vs Falha nas tentativas de detox")
 detox_group = detox.groupby(["detox_attempts", "successful_detox"]).size().reset_index(name="count")
 fig3 = px.bar(
@@ -220,6 +207,32 @@ st.info(
 #Pronto
 
 st.divider()
+
+#quinto gráfico
+st.header("🔁 Probabilidade de recaída por idade")
+
+fig2 = px.bar(
+    relapse_age.sort_values("relapse_probability"),
+    y="age_group",
+    x="relapse_probability",
+    orientation="h",
+    title="Probabilidade de Recaída por Faixa Etária",
+    labels={
+        "age_group": "Faixa Etária",
+        "relapse_probability": "Probabilidade de Recaída"
+    }
+)
+
+st.plotly_chart(fig2, use_container_width=True)
+maior_relapse = relapse_age.loc[
+    relapse_age["relapse_probability"].idxmax(),
+    "age_group"
+]
+st.info(
+    f"💡 Insight: A faixa etária {maior_relapse} apresentou a maior probabilidade média de recaída.")
+st.divider()
+
+#sexto gráfico
 st.header("👥📈 Sucesso de detox por faixa etária")
 age_success = detox.groupby(["age_group", "successful_detox"]).size().reset_index(name="count")
 fig4 = px.bar(
@@ -238,6 +251,8 @@ fig4 = px.bar(
 
 st.plotly_chart(fig4, use_container_width=True)
 st.divider()
+
+#sétimo gráfico
 st.header("📉 Recaída média por plataforma")
 
 fig5 = px.bar(

@@ -77,7 +77,7 @@ plataforma_critica = relapse_platform.loc[
 plataforma_mais_usada = detox["platform"].mode()[0]
 faixa_critica = relapse_age.loc[
     relapse_age["relapse_probability"].idxmax(),"age_group"]
-col1, col2, col3, col4 = st.columns([4])
+col1, col2, col3, col4 = st.columns([1, 3, 3, 2])
 col1.metric(
     "📉 Recaída Média",
     f"{media_relapse:.0%}")

@@ -77,13 +77,17 @@ plataforma_critica = relapse_platform.loc[
 plataforma_mais_usada = detox["platform"].mode()[0]
 faixa_critica = relapse_age.loc[
     relapse_age["relapse_probability"].idxmax(),"age_group"]
-col1, col2, col3, col4 = st.columns([1, 1.5, 1.5, 1])
+col1, col2, col3, col4 = st.columns([4])
 col1.metric(
     "📉 Recaída Média",
     f"{media_relapse:.0%}")
-col2.metric(
-    "📱 Plataforma com Maior Recaída",
-    plataforma_critica)
+with col2:
+    st.markdown("""
+    <div style="text-align:center;">
+        <p><b>📱 Plataforma com Maior Recaída</b></p>
+        <h4>TikTok</h4>
+    </div>
+    """, unsafe_allow_html=True)
 col3.metric(
     "📊 Plataforma Mais Usada",
     plataforma_mais_usada)

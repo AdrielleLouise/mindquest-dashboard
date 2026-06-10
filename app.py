@@ -3,12 +3,12 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(layout="centered")
-st.title("📊 Dashboard de Apoio à Construção do MindQuest")
+st.title("Dashboard de Apoio à Construção do MindQuest")
 
 #Tentativa de mudar um pouco a aparência do Dashboard pra ficar com a carinha do MindQuest
 
 st.markdown("""
-### 🎮 Transformando o uso consciente da tecnologia em uma jornada de evolução pessoal
+### Transformando o uso consciente da tecnologia em uma jornada de evolução pessoal
 
 Este dashboard foi utilizado para analisar padrões de comportamento digital
 e auxiliar no desenvolvimento do MindQuest.
@@ -79,19 +79,19 @@ faixa_critica = relapse_age.loc[
     relapse_age["relapse_probability"].idxmax(),"age_group"]
 col1, col2, col3, col4 = st.columns([2, 3, 3, 2])
 col1.metric(
-    "📉 Recaída Média",
+    "Recaída Média",
     f"{media_relapse:.0%}")
 col2.metric( 
-    "📱 Maior Recaída",
+    "Maior Recaída",
     plataforma_critica)
 col3.metric(
-    "📊 Mais Utilizada",
+    "Mais Utilizada",
     plataforma_mais_usada)
 with col4:
     st.markdown("""
     <div style="text-align:center;">
         <p style="font-size:14px; margin-bottom:5px;">
-            👥 Faixa Mais Vulnerável
+             Faixa Mais Vulnerável
         </p>
     </div>
     """, unsafe_allow_html=True)
@@ -107,7 +107,7 @@ with col4:
 st.divider()
 
 #primeiro gráfico
-st.header("⏳ Produtividade e Hábitos por Faixa Etária")
+st.header("Produtividade e Hábitos por Faixa Etária")
 #st.write(produtividade_group)
 fig0 = px.bar(
     produtividade_group,
@@ -125,13 +125,13 @@ fig0 = px.bar(
 )
 st.plotly_chart(fig0, use_container_width=True)
 st.info(
-    "💡 Insight: A comparação entre tempo de tela, estudo e sono permite identificar padrões de equilíbrio digital entre as diferentes faixas etárias.")
+    "Insight: A comparação entre tempo de tela, estudo e sono permite identificar padrões de equilíbrio digital entre as diferentes faixas etárias.")
 #finalizei
 
 st.divider()
 
 #segundo gráfico
-st.header("📊 Distribuição de uso por plataforma")
+st.header("Distribuição de uso por plataforma")
 uso_plataforma = detox["platform"].value_counts().reset_index()
 uso_plataforma.columns = ["platform", "usuarios"]
 fig_pizza = px.pie(
@@ -141,12 +141,12 @@ fig_pizza = px.pie(
     title="Plataformas mais utilizadas")
 st.plotly_chart(fig_pizza, use_container_width=True)
 st.info(
-    f"💡 Insight: {plataforma_mais_usada} foi a plataforma mais utilizada entre os usuários analisados.")
+    f"Insight: {plataforma_mais_usada} foi a plataforma mais utilizada entre os usuários analisados.")
 
 st.divider()
 
 #terceiro gráfico
-st.header("📱 Saúde mental por plataforma")
+st.header("Saúde mental por plataforma")
 platform_group = mental.groupby("platform")[["anxiety_score", "stress_level", "loneliness_index", "depression_score"]].mean().reset_index()
 platform_group = platform_group.rename(columns={
     "anxiety_score": "Pontuação de Ansiedade",
@@ -178,14 +178,14 @@ maior_ansiedade = platform_group.loc[
     platform_group["Pontuação de Ansiedade"].idxmax(),
     "platform"
 ]
-st.info(f"💡 Insight: {maior_ansiedade} apresentou os maiores indicadores de impacto emocional, destacando-se principalmente na média de ansiedade.")
+st.info(f"Insight: {maior_ansiedade} apresentou os maiores indicadores de impacto emocional, destacando-se principalmente na média de ansiedade.")
 
 #Acaba aqui
 
 st.divider()
 
 #quarto gráfico
-st.header("🧪 Sucesso vs Falha nas tentativas de detox")
+st.header("Sucesso vs Falha nas tentativas de detox")
 detox_group = detox.groupby(["detox_attempts", "successful_detox"]).size().reset_index(name="count")
 fig3 = px.bar(
     detox_group,
@@ -205,14 +205,14 @@ st.plotly_chart(fig3, use_container_width=True)
 #Mais um Insight
 
 st.info(
-    "💡 Insight: O número de tentativas influencia diretamente as chances de sucesso no detox digital.")
+    "Insight: O número de tentativas influencia diretamente as chances de sucesso no detox digital.")
 
 #Pronto
 
 st.divider()
 
 #quinto gráfico
-st.header("🔁 Probabilidade de recaída por idade")
+st.header("Probabilidade de recaída por idade")
 
 fig2 = px.bar(
     relapse_age.sort_values("relapse_probability"),
@@ -232,11 +232,11 @@ maior_relapse = relapse_age.loc[
     "age_group"
 ]
 st.info(
-    f"💡 Insight: A faixa etária {maior_relapse} apresentou a maior probabilidade média de recaída.")
+    f"Insight: A faixa etária {maior_relapse} apresentou a maior probabilidade média de recaída.")
 st.divider()
 
 #sexto gráfico
-st.header("👥📈 Sucesso de detox por faixa etária")
+st.header("Sucesso de detox por faixa etária")
 age_success = detox.groupby(["age_group", "successful_detox"]).size().reset_index(name="count")
 fig4 = px.bar(
     age_success,
@@ -257,11 +257,11 @@ sucesso_por_idade = age_success[
 melhor_faixa = sucesso_por_idade.loc[
     sucesso_por_idade["count"].idxmax(),
     "age_group"]
-st.info(f"💡 Insight: A faixa etária {melhor_faixa} apresentou a maior quantidade de casos de sucesso no detox digital.")
+st.info(f"Insight: A faixa etária {melhor_faixa} apresentou a maior quantidade de casos de sucesso no detox digital.")
 st.divider()
 
 #sétimo gráfico
-st.header("📉 Recaída média por plataforma")
+st.header("Recaída média por plataforma")
 
 fig5 = px.bar(
     relapse_platform.sort_values("relapse_probability"),
@@ -275,15 +275,15 @@ fig5 = px.bar(
 )
 st.plotly_chart(fig5, use_container_width=True)
 media = relapse_platform["relapse_probability"].mean()
-st.info(f"💡 Insight: {plataforma_critica} apresentou a maior probabilidade média de recaída, reforçando a importância de mecanismos de acompanhamento contínuo para usuários dessa plataforma.")
+st.info(f"Insight: {plataforma_critica} apresentou a maior probabilidade média de recaída, reforçando a importância de mecanismos de acompanhamento contínuo para usuários dessa plataforma.")
 st.divider()
-st.subheader("🧠 Insight")
+st.subheader("Insight")
 st.write(f"Média global de recaída: {media:.2f}")
 if 0.45 < media < 0.55:
     st.warning("A recaída é aproximadamente 50% → comportamento sistêmico.")
 st.divider()
 st.success("""
-🎯 Conclusão
+Conclusão
 
 Os dados indicam que padrões de uso excessivo das redes sociais estão associados
 a maiores índices de estresse, depressão e recaída em processos de detox digital.
